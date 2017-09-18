@@ -1,4 +1,4 @@
-function initStars(id) {
+function initBackgroundAnimation(id) {
   window.requestAnimFrame = (function () {
     return window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
@@ -37,7 +37,7 @@ function initStars(id) {
    */
   var particles = [];
 
-  var particlesDensity = 20;
+  var particlesDensity = 80;
   var maxParticles = particlesDensity * particlesDensity;
 
   /**
@@ -52,16 +52,24 @@ function initStars(id) {
 
   var connectionsAmount = 10;
 
-  init();
+  var particleImage;
 
-  function init() {
-    window.addEventListener('mousemove', function (e) {
-      _.throttle(setMousePos(e), 50);
-    });
+  loadParticleImage(function () {
+      window.addEventListener('mousemove', function (e) {
+        _.throttle(setMousePos(e), 50);
+      });
 
-    initCanvas();
-    generateParticles();
-    generateConnections();
+      initCanvas();
+      generateParticles();
+      //generateConnections();
+  });
+
+  function loadParticleImage(callback) {
+    particleImage = new Image();
+    particleImage.src = './src/assets/particle.png';
+    particleImage.onload = function () {
+      callback();
+    };
   }
 
   function setMousePos(evt) {
@@ -74,6 +82,7 @@ function initStars(id) {
 
   function initCanvas() {
     canvas = document.getElementById(id);
+    console.log(canvas);
     ctx = canvas.getContext("2d");
     canvas.width = canvas.parentNode.clientWidth;
     canvas.height = canvas.parentNode.clientHeight;
@@ -81,8 +90,8 @@ function initStars(id) {
 
   function generateParticles() {
     for (var i = 0; i < maxParticles; i++) {
-      var startX = Math.random() * ( canvas.width / particlesDensity ) + ( i % particlesDensity * canvas.width / particlesDensity );
-      var startY = Math.random() * canvas.height / particlesDensity + ( Math.floor(i / particlesDensity) ) * canvas.height / particlesDensity;
+      var startX = /* Math.random() **/ 0.5 * ( canvas.width / particlesDensity ) + ( i % particlesDensity * canvas.width / particlesDensity );
+      var startY = /*Math.random() **/ 0.5 * ( canvas.height / particlesDensity ) + ( Math.floor(i / particlesDensity) ) * canvas.height / particlesDensity;
       var startClock = Math.floor(Math.random() * 50 + 40);
       particles.push({
         startX: startX,
@@ -92,7 +101,8 @@ function initStars(id) {
         targetX: startX,
         targetY: startY,
         startClock: startClock,
-        clock: startClock
+        clock: startClock,
+        scareDistance: Math.floor(Math.random() * 50 + 50)
       });
     }
   }
@@ -111,20 +121,23 @@ function initStars(id) {
 
     // Draw particles
     particles.forEach(function (particle) {
-      ctx.beginPath();
-      ctx.arc(particle.currentX, particle.currentY, 5, 0, 2 * Math.PI, false);
-      ctx.fill();
-      ctx.stroke();
+      var width = particleImage.width * 1.5;
+      var height = particleImage.height * 1.5;
+      ctx.drawImage(particleImage, particle.currentX - width / 2, particle.currentY - height / 2, width, height);
+      /*ctx.beginPath();
+       ctx.arc(particle.currentX, particle.currentY, 1, 0, 2 * Math.PI, false);
+       ctx.fill();
+       ctx.stroke();*/
     });
 
-    connections.forEach(function (connection) {
-      var firstParticle = particles[connection.firstParticleIndex];
-      var secondParticle = particles[connection.secondParticleIndex];
-      ctx.beginPath();
-      ctx.moveTo(firstParticle.currentX, firstParticle.currentY);
-      ctx.lineTo(secondParticle.currentX, secondParticle.currentY);
-      ctx.stroke();
-    });
+    /*connections.forEach(function (connection) {
+     var firstParticle = particles[connection.firstParticleIndex];
+     var secondParticle = particles[connection.secondParticleIndex];
+     ctx.beginPath();
+     ctx.moveTo(firstParticle.currentX, firstParticle.currentY);
+     ctx.lineTo(secondParticle.currentX, secondParticle.currentY);
+     ctx.stroke();
+     });*/
 
     update();
   }
@@ -133,15 +146,14 @@ function initStars(id) {
     for (var i = 0; i < maxParticles; i++) {
       var particle = particles[i];
       --particle.clock;
-
       if (particle.clock <= 0) {
-        particle.targetX = particle.startX + (Math.random() - 0.5) * 150;
-        particle.targetY = particle.startY + (Math.random() - 0.5) * 150;
+        particle.targetX = particle.startX + (Math.random() - 0.5) * 10;
+        particle.targetY = particle.startY + (Math.random() - 0.5) * 10;
         particle.clock = particle.startClock;
       }
 
-      particle.currentX += (particle.targetX - particle.currentX) / 150;
-      particle.currentY += (particle.targetY - particle.currentY) / 150;
+      particle.currentX += (particle.targetX - particle.currentX) / 50;
+      particle.currentY += (particle.targetY - particle.currentY) / 50;
 
       particles[i] = runFromMouse(particle);
     }
@@ -157,9 +169,13 @@ function initStars(id) {
       Math.pow(posRelativeToMouse.x, 2) +
       Math.pow(posRelativeToMouse.y, 2)
     );
-    if (distance < 200) {
-      particle.targetX = particle.currentX + 200 / distance * 200 / distance * posRelativeToMouse.x;
-      particle.targetY = particle.currentY + 200 / distance * 200 / distance * posRelativeToMouse.y;
+    if (distance < particle.scareDistance) {
+      var velocityFactor = 100 / distance;
+      particle.targetX = particle.currentX + Math.pow(velocityFactor, 2) * posRelativeToMouse.x;
+      particle.targetY = particle.currentY + Math.pow(velocityFactor, 2) * posRelativeToMouse.y;
+    } else {
+      particle.targetX = particle.startX;
+      particle.targetY = particle.startY;
     }
 
     return particle;

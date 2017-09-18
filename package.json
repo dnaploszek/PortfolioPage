@@ -1,0 +1,30 @@
+{
+  "name": "portfolio-page-dnaploszek",
+  "version": "1.0.0",
+  "description": "dnaploszek portfolio/playground page",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnaploszek/PortfolioPage.git"
+  },
+  "keywords": [
+    "portfolio",
+    "frontend",
+    "developer",
+    "web",
+    "responsive",
+    "playground"
+  ],
+  "author": "dnaploszek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dnaploszek/PortfolioPage/issues"
+  },
+  "homepage": "https://github.com/dnaploszek/PortfolioPage#readme",
+  "devDependencies": {
+    "webpack": "^3.6.0"
+  }
+}

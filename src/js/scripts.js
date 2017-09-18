@@ -2,6 +2,6 @@
   window.onload = onLoad;
 
   function onLoad() {
-    initStars("canvas-animation");
+    initBackgroundAnimation("canvas-animation");
   }
 })();
