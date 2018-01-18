@@ -82,7 +82,6 @@ function initBackgroundAnimation(id) {
 
   function initCanvas() {
     canvas = document.getElementById(id);
-    console.log(canvas);
     ctx = canvas.getContext("2d");
     canvas.width = canvas.parentNode.clientWidth;
     canvas.height = canvas.parentNode.clientHeight;
