@@ -5,11 +5,13 @@ import { CanvasRefs } from '../CanvasWrapper/CanvasWrapper.types';
 import { Particle } from './ParticleCanvasBackground.types';
 import particleImageSrc from '../../assets/images/canvas-background/particle.png';
 
+import StringUtilities from '../../Utilities/StringUtilities';
 import './ParticleCanvasBackground.css';
 
 interface Props {
   particlesDensity: number;
   maxParticles: number;
+  className: string;
 }
 
 interface State {
@@ -171,7 +173,7 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
   render() {
     return (
       <CanvasWrapper
-        className="particle-canvas"
+        className={StringUtilities.classnames('particle-canvas', this.props.className)}
         updateCanvas={this.updateCanvas}
         canvasRefs={this.setupCanvas}
         resizeCallback={this.onCanvasResized}
