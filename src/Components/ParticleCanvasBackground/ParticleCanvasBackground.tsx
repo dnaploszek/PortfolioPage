@@ -19,11 +19,12 @@ interface State {
     x: number,
     y: number,
   };
-  canvasRefs?: CanvasRefs;
-  particleImage?: HTMLImageElement;
 }
 
 export default class ParticleCanvasBackground extends React.Component<Props, State> {
+  canvasRefs: CanvasRefs;
+  particleImage: HTMLImageElement;
+
   constructor(props: Props) {
     super(props);
 
@@ -47,23 +48,19 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
   }
 
   setupCanvas = (canvasRefs: CanvasRefs) => {
-    this.setState({
-      canvasRefs: canvasRefs,
-    });
+    this.canvasRefs = canvasRefs;
   }
 
   getParticleImageRef = (ref: HTMLImageElement) => {
-    this.setState({
-      particleImage: ref,
-    });
+    this.particleImage = ref;
   }
 
   generateParticles = () => {
-    if (!this.state.canvasRefs) {
+    if (!this.canvasRefs) {
       return;
     }
     const {particlesDensity, maxParticles} = this.props;
-    const {width, height} = this.state.canvasRefs.canvas;
+    const {width, height} = this.canvasRefs.canvas;
     const particles = [];
     for (let i = 0; i < maxParticles; i++) {
       particles.push(
@@ -82,34 +79,33 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
   }
 
   updateCanvas = (canvasRefs: CanvasRefs) => {
-    const {canvas, ctx} = canvasRefs;
-    const {particleImage, particles} = this.state;
-
-    if (particles.length === 0) {
+    if (this.state.particles.length === 0) {
       return;
     }
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.drawParticles()
+    this.updateData();
+  }
 
-    // Draw particles
+  drawParticles = () => {
+    const {canvas, ctx} = this.canvasRefs;
+    const { particles} = this.state;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     particles.forEach((particle: Particle) => {
-      if (!particleImage) {
+      if (!this.particleImage) {
         return;
       }
-      const width = particleImage.width;
-      const height = particleImage.height;
+
       ctx.globalAlpha = 0.1;
       ctx.drawImage(
-        particleImage,
-        particle.currentPos.x - width / 2,
-        particle.currentPos.y - height / 2,
-        width,
-        height
+        this.particleImage,
+        particle.currentPos.x - this.particleImage.width / 2,
+        particle.currentPos.y - this.particleImage.height / 2,
+        this.particleImage.width,
+        this.particleImage.height
       );
       ctx.globalAlpha = 1;
     });
-
-    this.updateData();
   }
 
   updateData = () => {
@@ -121,10 +117,10 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
   }
 
   setMousePos(evt: MouseEvent) {
-    if (!this.state.canvasRefs) {
+    if (!this.canvasRefs) {
       return;
     }
-    const {canvas} = this.state.canvasRefs;
+    const {canvas} = this.canvasRefs;
     const rect = canvas.getBoundingClientRect();
     this.setState({
       mousePos: {

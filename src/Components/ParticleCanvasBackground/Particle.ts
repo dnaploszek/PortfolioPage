@@ -27,7 +27,7 @@ export default class Particle {
     this.currentPos = startPos;
     this.targetPos = startPos;
     this.startClock = Math.floor(Math.random() * 50 + 40);
-    this.clock = this.startClock;
+    this.clock = 0;
     this.scareDistance = Math.floor(Math.random() * 50 + 50);
   }
 
