@@ -1,11 +1,10 @@
 import * as React from 'react';
-
-import CanvasWrapper from '../CanvasWrapper/CanvasWrapper';
 import { CanvasRefs } from '../CanvasWrapper/CanvasWrapper.types';
-import { Particle } from './ParticleCanvasBackground.types';
-import particleImageSrc from '../../assets/images/canvas-background/particle.png';
 
+import Particle from './Particle';
+import CanvasWrapper from '../CanvasWrapper/CanvasWrapper';
 import StringUtilities from '../../Utilities/StringUtilities';
+import particleImageSrc from '../../assets/images/canvas-background/particle.png';
 import './ParticleCanvasBackground.css';
 
 interface Props {
@@ -67,21 +66,11 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
     const {width, height} = this.state.canvasRefs.canvas;
     const particles = [];
     for (let i = 0; i < maxParticles; i++) {
-      const startX = 0.5 * ( width / particlesDensity ) + ( i % particlesDensity * width / particlesDensity );
-      const startY = 0.5 * ( height / particlesDensity ) +
-        ( Math.floor(i / particlesDensity) ) * height / particlesDensity;
-      const startClock = Math.floor(Math.random() * 50 + 40);
-      particles.push({
-        startX: startX,
-        startY: startY,
-        currentX: startX,
-        currentY: startY,
-        targetX: startX,
-        targetY: startY,
-        startClock: startClock,
-        clock: startClock,
-        scareDistance: Math.floor(Math.random() * 50 + 50)
-      });
+      particles.push(
+        new Particle(
+          Particle.calculateStartingPos(width, height, particlesDensity, i)
+        )
+      );
     }
     this.setState({
       particles: particles,
@@ -109,51 +98,26 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
       }
       const width = particleImage.width;
       const height = particleImage.height;
-      ctx.drawImage(particleImage, particle.currentX - width / 2, particle.currentY - height / 2, width, height);
+      ctx.globalAlpha = 0.1;
+      ctx.drawImage(
+        particleImage,
+        particle.currentPos.x - width / 2,
+        particle.currentPos.y - height / 2,
+        width,
+        height
+      );
+      ctx.globalAlpha = 1;
     });
 
     this.updateData();
   }
 
   updateData = () => {
-    const {maxParticles} = this.props;
     const particles = [...this.state.particles];
-    for (let i = 0; i < maxParticles; i++) {
-      const particle = particles[i];
-      --particle.clock;
-      if (particle.clock <= 0) {
-        particle.targetX = particle.startX + (Math.random() - 0.5) * 10;
-        particle.targetY = particle.startY + (Math.random() - 0.5) * 10;
-        particle.clock = particle.startClock;
-      }
-
-      particle.currentX += (particle.targetX - particle.currentX) / 50;
-      particle.currentY += (particle.targetY - particle.currentY) / 50;
-
-      particles[i] = this.runFromMouse(particle);
-    }
+    particles.map(particle => particle.tick(this.state.mousePos));
     this.setState({
       particles: particles,
     });
-  }
-
-  runFromMouse(particle: Particle) {
-    const posRelativeToMouse = {
-      x: particle.currentX - this.state.mousePos.x,
-      y: particle.currentY - this.state.mousePos.y
-    };
-
-    const distance = Math.sqrt(Math.pow(posRelativeToMouse.x, 2) + Math.pow(posRelativeToMouse.y, 2));
-    if (distance < particle.scareDistance) {
-      const velocityFactor = 100 / distance;
-      particle.targetX = particle.currentX + Math.pow(velocityFactor, 2) * posRelativeToMouse.x;
-      particle.targetY = particle.currentY + Math.pow(velocityFactor, 2) * posRelativeToMouse.y;
-    } else {
-      particle.targetX = particle.startX;
-      particle.targetY = particle.startY;
-    }
-
-    return particle;
   }
 
   setMousePos(evt: MouseEvent) {
@@ -173,7 +137,7 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
   render() {
     return (
       <CanvasWrapper
-        className={StringUtilities.classnames('particle-canvas', this.props.className)}
+        className={StringUtilities.classnames('particle-canvas', 'main-color-background', this.props.className)}
         updateCanvas={this.updateCanvas}
         canvasRefs={this.setupCanvas}
         resizeCallback={this.onCanvasResized}
