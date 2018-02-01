@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import HomeScreen from './Components/HomeScreen/HomeScreen';
+import HomeScreen from './Views/HomeScreen/HomeScreen';
 
 import './App.css';
 
