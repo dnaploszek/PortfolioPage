@@ -96,7 +96,7 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
         return;
       }
 
-      ctx.globalAlpha = 0.1;
+      ctx.globalAlpha = 0.4;
       ctx.drawImage(
         this.particleImage,
         particle.currentPos.x - this.particleImage.width / 2,
