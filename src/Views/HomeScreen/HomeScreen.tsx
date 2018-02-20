@@ -23,6 +23,12 @@ export default class HomeScreen extends React.Component {
               My name is <HText>Darek</HText> and i'm a <HText>JavaScript Software Developer</HText>.
             </p>
           </div>
+          <div className="home-screen--learn-more-container font-text action-color">
+            <a href="#" className="home-screen--learn-more font-size-text">
+              Learn more about me
+              <div className="home-screen--arrow-bottom action-color"/>
+            </a>
+          </div>
         </div>
       </div>
     );
