@@ -1,47 +1,103 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .main-color {
-
+    color: #060606;
 }
 
 .main-color-background {
+    background-color: #060606;
+}
 
+.white-color {
+    color: #FFFFFF;
+}
+
+.white-color-background {
+    background-color: #FFFFFF;
 }
 
 .secondary-color {
-
+    color: #434343;
 }
 
 .secondary-color-background {
-
+    background-color: #434343;
 }
 
 .action-color {
-
+    color: #78BC61;
 }
 
 .action-color-background {
-
+    background-color: #78BC61;
 }
 
-.font-lato {
-  font-family: 'Lato', sans-serif;
+.font-header {
+    font-family: 'Lato', sans-serif;
 }
 
-.font-open-sans {
-  font-family: 'Open Sans', sans-serif;
+.font-text {
+    font-family: 'Open Sans', sans-serif;
 }
 
-#canvas-animation {
-  height: 800px;
-  display: block;
-  opacity: 0.2;
+.font-size-banner {
+    font-size: 67px;
+}
+
+.font-size-banner-description {
+    font-size: 50px;
+}
+
+.font-size-header {
+    font-size: 37px;
+}
+
+.font-size-header-description {
+    font-size: 28px;
+}
+
+.font-size-text {
+    font-size: 21px;
+}
+
+.font-size-small-text {
+    font-size: 16px;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+@media screen and (max-width: 900px) {
+    .font-size-banner {
+        font-size: 50px;
+    }
+
+    .font-size-banner-description {
+        font-size: 37px;
+    }
+
+    .font-size-header {
+        font-size: 28px;
+    }
+
+    .font-size-header-description {
+        font-size: 21px;
+    }
+
+    .font-size-text {
+        font-size: 16px;
+    }
+
+    .font-size-small-text {
+        font-size: 12px;
+    }
 }

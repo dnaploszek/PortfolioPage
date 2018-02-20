@@ -6,7 +6,7 @@ interface CanvasWrapperProps {
   updateCanvas: (canvasRefs: CanvasRefs) => void;
   canvasRefs: (canvasRefs: CanvasRefs) => void;
   resizeCallback: (width: number, height: number) => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export default class CanvasWrapper extends React.Component<CanvasWrapperProps> {
