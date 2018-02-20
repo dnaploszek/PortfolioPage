@@ -3,12 +3,11 @@ import { CanvasRefs } from '../CanvasWrapper/CanvasWrapper.types';
 
 import Particle from './Particle';
 import CanvasWrapper from '../CanvasWrapper/CanvasWrapper';
+import CanvasParticleUtilities from './CanvasParticleUtilities';
 import StringUtilities from '../../Utilities/StringUtilities';
-import particleImageSrc from '../../assets/images/canvas-background/particle.png';
 import './ParticleCanvasBackground.css';
 
 interface Props {
-  particlesDensity: number;
   maxParticles: number;
   className: string;
 }
@@ -23,7 +22,6 @@ interface State {
 
 export default class ParticleCanvasBackground extends React.Component<Props, State> {
   canvasRefs: CanvasRefs;
-  particleImage: HTMLImageElement;
 
   constructor(props: Props) {
     super(props);
@@ -35,6 +33,10 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
         y: 0,
       },
     };
+  }
+
+  componentWillMount() {
+    this.generateParticles();
   }
 
   componentDidMount() {
@@ -51,22 +53,16 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
     this.canvasRefs = canvasRefs;
   }
 
-  getParticleImageRef = (ref: HTMLImageElement) => {
-    this.particleImage = ref;
-  }
-
   generateParticles = () => {
     if (!this.canvasRefs) {
       return;
     }
-    const {particlesDensity, maxParticles} = this.props;
-    const {width, height} = this.canvasRefs.canvas;
+    const { maxParticles } = this.props;
+    const { width, height } = this.canvasRefs.canvas;
     const particles = [];
     for (let i = 0; i < maxParticles; i++) {
       particles.push(
-        new Particle(
-          Particle.calculateStartingPos(width, height, particlesDensity, i)
-        )
+        new Particle(Particle.calculateStartingPos(width, height))
       );
     }
     this.setState({
@@ -78,34 +74,24 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
     this.generateParticles();
   }
 
-  updateCanvas = (canvasRefs: CanvasRefs) => {
+  updateCanvas = () => {
     if (this.state.particles.length === 0) {
       return;
     }
 
-    this.drawParticles()
+    this.drawParticles();
     this.updateData();
   }
 
   drawParticles = () => {
-    const {canvas, ctx} = this.canvasRefs;
-    const { particles} = this.state;
+    const { canvas, ctx } = this.canvasRefs;
+    const { particles } = this.state;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.globalAlpha = 0.4;
     particles.forEach((particle: Particle) => {
-      if (!this.particleImage) {
-        return;
-      }
-
-      ctx.globalAlpha = 0.4;
-      ctx.drawImage(
-        this.particleImage,
-        particle.currentPos.x - this.particleImage.width / 2,
-        particle.currentPos.y - this.particleImage.height / 2,
-        this.particleImage.width,
-        this.particleImage.height
-      );
-      ctx.globalAlpha = 1;
+      CanvasParticleUtilities.drawParticle(particle.currentPos, ctx);
     });
+    ctx.globalAlpha = 1;
   }
 
   updateData = () => {
@@ -120,7 +106,7 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
     if (!this.canvasRefs) {
       return;
     }
-    const {canvas} = this.canvasRefs;
+    const { canvas } = this.canvasRefs;
     const rect = canvas.getBoundingClientRect();
     this.setState({
       mousePos: {
@@ -137,9 +123,7 @@ export default class ParticleCanvasBackground extends React.Component<Props, Sta
         updateCanvas={this.updateCanvas}
         canvasRefs={this.setupCanvas}
         resizeCallback={this.onCanvasResized}
-      >
-        <img ref={this.getParticleImageRef} src={particleImageSrc} onLoad={this.generateParticles}/>
-      </CanvasWrapper>
+      />
     );
   }
 }

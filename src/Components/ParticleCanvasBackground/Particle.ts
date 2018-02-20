@@ -1,4 +1,4 @@
-interface Point {
+export interface Point {
   x: number;
   y: number;
 }
@@ -15,10 +15,10 @@ export default class Particle {
   clock: number; // ticks left to reset target position
   scareDistance: number;
 
-  static calculateStartingPos(canvasWidth: number, canvasHeight: number, density: number, index: number) {
+  static calculateStartingPos(canvasWidth: number, canvasHeight: number) {
     return {
-      x: 0.5 * (canvasWidth / density) + (index % density * canvasWidth / density),
-      y: 0.5 * (canvasHeight / density) + (Math.floor(index / density)) * canvasHeight / density,
+      x: Math.random() * canvasWidth,
+      y: Math.random() * canvasHeight,
     };
   }
 
@@ -31,15 +31,16 @@ export default class Particle {
     this.scareDistance = Math.floor(Math.random() * 50 + 50);
   }
 
-  tick(mousePos: Point) {
+  tick(avoidancePoint: Point) {
     --this.clock;
     if (this.clock <= 0) {
       this.randomizeTarget();
       this.resetParticleClock();
     }
-    if (mousePos) {
-      this.runFromMouse(mousePos);
+    if (avoidancePoint) {
+      this.runFromPoint(avoidancePoint)
     }
+
     this.moveToTarget();
     return this;
   }
@@ -50,8 +51,8 @@ export default class Particle {
 
   private randomizeTarget() {
     this.targetPos = {
-      x: this.startPos.x + (Math.random() - 0.5) * 10,
-      y: this.startPos.y + (Math.random() - 0.5) * 10,
+      x: this.startPos.x + (Math.random() - 0.5) * 20,
+      y: this.startPos.y + (Math.random() - 0.5) * 20,
     };
   }
 
@@ -62,10 +63,10 @@ export default class Particle {
     };
   }
 
-  private runFromMouse(mousePos: Point) {
+  private runFromPoint(avoidPos: Point) {
     const posRelativeToMouse = {
-      x: this.currentPos.x - mousePos.x,
-      y: this.currentPos.y - mousePos.y
+      x: this.currentPos.x - avoidPos.x,
+      y: this.currentPos.y - avoidPos.y
     };
     const distance = Math.sqrt(Math.pow(posRelativeToMouse.x, 2) + Math.pow(posRelativeToMouse.y, 2));
 

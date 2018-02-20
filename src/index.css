@@ -9,11 +9,11 @@ body {
 }
 
 .main-color {
-    color: #8CAAF5;
+    color: #060606;
 }
 
 .main-color-background {
-    background-color: #8CAAF5;
+    background-color: #060606;
 }
 
 .white-color {
@@ -25,19 +25,19 @@ body {
 }
 
 .secondary-color {
-    color: #FFEB84;
+    color: #434343;
 }
 
 .secondary-color-background {
-    background-color: #FFEB84;
+    background-color: #434343;
 }
 
 .action-color {
-    color: #FFBD84;
+    color: #78BC61;
 }
 
 .action-color-background {
-    background-color: #FFBD84;
+    background-color: #78BC61;
 }
 
 .font-header {

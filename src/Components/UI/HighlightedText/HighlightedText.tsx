@@ -7,7 +7,7 @@ interface Props {
 export default class HighlightedText extends React.Component<Props> {
   render() {
     return (
-      <span className="secondary-color text-bold">
+      <span className="action-color text-bold">
         {this.props.children}
       </span>
     );

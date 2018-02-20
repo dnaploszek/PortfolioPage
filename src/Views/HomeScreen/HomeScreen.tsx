@@ -4,7 +4,7 @@ import ParticleCanvasBackground from '../../Components/ParticleCanvasBackground/
 import './HomeScreen.css';
 import HText from '../../Components/UI/HighlightedText/HighlightedText';
 
-const particleDensity = 80;
+const MAX_PARTICLES = 2500;
 
 export default class HomeScreen extends React.Component {
   render() {
@@ -12,11 +12,10 @@ export default class HomeScreen extends React.Component {
       <div className="home-screen--container">
         <ParticleCanvasBackground
           className="home-screen--background"
-          particlesDensity={particleDensity}
-          maxParticles={particleDensity * particleDensity}
+          maxParticles={MAX_PARTICLES}
         />
         <div className="home-screen--inner-container">
-          <div className="home-screen--content-container font-header white-color">
+          <div className="home-screen--welcome-container font-header white-color">
             <p className="text-bold font-size-banner">
               Hi!
             </p>
