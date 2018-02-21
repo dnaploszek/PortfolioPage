@@ -24,7 +24,7 @@ export default class HomeView extends React.Component {
             </p>
           </div>
           <div className="home-view--learn-more-container font-text action-color">
-            <a href="#" className="home-view--learn-more font-size-text">
+            <a href="#about" className="home-view--learn-more font-size-text">
               Learn more about me
               <div className="home-view--arrow-bottom action-color"/>
             </a>

@@ -38,7 +38,7 @@ export default class Particle {
       this.resetParticleClock();
     }
     if (avoidancePoint) {
-      this.runFromPoint(avoidancePoint)
+      this.runFromPoint(avoidancePoint);
     }
 
     this.moveToTarget();
