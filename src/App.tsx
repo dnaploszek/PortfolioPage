@@ -1,9 +1,10 @@
 import * as React from 'react';
 
 import HomeView from './Views/HomeView/HomeView';
+import AboutView from './Views/AboutView/AboutView';
+import SkillsView from './Views/SkillsView/SkillsView';
 
 import './App.css';
-import AboutView from './Views/AboutView/AboutView';
 
 class App extends React.Component {
   render() {
@@ -11,6 +12,7 @@ class App extends React.Component {
       <div className="app-container">
         <HomeView/>
         <AboutView/>
+        <SkillsView/>
       </div>
     );
   }

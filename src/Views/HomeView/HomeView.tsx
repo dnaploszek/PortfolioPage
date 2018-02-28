@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 import ParticleCanvasBackground from '../../Components/ParticleCanvasBackground/ParticleCanvasBackground';
-import './HomeView.css';
 import HText from '../../Components/UI/HighlightedText/HighlightedText';
+
+import './HomeView.css';
 
 const MAX_PARTICLES = 2500;
 

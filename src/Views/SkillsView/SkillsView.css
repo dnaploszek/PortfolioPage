@@ -1,0 +1,14 @@
+.skills-view--container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.skills-view--skill-icon {
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+}
