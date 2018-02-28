@@ -1,14 +1,16 @@
 import * as React from 'react';
 
-import HomeScreen from './Views/HomeScreen/HomeScreen';
+import HomeView from './Views/HomeView/HomeView';
 
 import './App.css';
+import AboutView from './Views/AboutView/AboutView';
 
 class App extends React.Component {
   render() {
     return (
       <div className="app-container">
-        <HomeScreen/>
+        <HomeView/>
+        <AboutView/>
       </div>
     );
   }
