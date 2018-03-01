@@ -1,15 +1,21 @@
 import * as React from 'react';
 
+import Title from '../../Components/UI/Title/Title';
+import SkillAnimatedIcon from './SkillAnimatedIcon/SkillAnimatedIcon';
+
+import icons, { SkillIcon } from './SkillsIcons';
 import './SkillsView.css';
-import icons from './SkillsIcons';
 
 export default class SkillsView extends React.Component {
   render() {
     return (
       <div className="skills-view--container main-color-background">
-        {icons.map((icon) => (
-          <img className="skills-view--skill-icon" src={icon}/>
-        ))}
+        <Title>
+          My skills
+        </Title>
+        <div className="skills-view--icons-container">
+          {icons.map((icon: SkillIcon) => <SkillAnimatedIcon key={icon.key} icon={icon}/>)}
+        </div>
       </div>
     );
   }
