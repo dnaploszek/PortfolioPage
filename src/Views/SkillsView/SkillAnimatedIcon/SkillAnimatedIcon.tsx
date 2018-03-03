@@ -3,7 +3,7 @@ import * as React from 'react';
 import { SkillIcon } from '../SkillsIcons';
 
 import './SkillAnimatedIcon.css';
-const ANIMATION_TIME = 750; // ms
+const ANIMATION_TIME = 500; // ms
 
 interface Props {
   icon: SkillIcon;
