@@ -1,0 +1,45 @@
+.skill-animated-icon--container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 40px 50px;
+}
+
+.skill-animated-icon--image {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    transition: opacity 250ms ease-in-out, transform 125ms ease-in-out;
+}
+
+.skill-animated-icon--image-color {
+    opacity: 0;
+}
+
+.skill-animated-icon--description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    bottom: -60px;
+    text-align: center;
+    transform: rotateX(90deg);
+    transition: transform 250ms ease-in-out;
+    transition-delay: 250ms;
+}
+
+.skill-animated-icon--container.animate .skill-animated-icon--image {
+    opacity: 0;
+    transform: scale(1.1);
+}
+
+.skill-animated-icon--container.animate .skill-animated-icon--image-color {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.skill-animated-icon--container.animate .skill-animated-icon--description {
+    transform: rotateX(0deg);
+}

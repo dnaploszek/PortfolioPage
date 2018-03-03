@@ -1,0 +1,12 @@
+.skills-view--container {
+    padding: 40px 0;
+    width: 100%;
+}
+
+.skills-view--icons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 50px 0;
+}
