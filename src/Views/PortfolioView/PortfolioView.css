@@ -1,0 +1,7 @@
+.portfolio-view--container {
+}
+
+.portfolio-view--blocks-container {
+    display: flex;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,9 @@
+.portfolio-item--web-size {
+    width: 400px;
+    height: 250px;
+}
+
+.portfolio-item--mobile-size {
+    width: 250px;
+    height: 400px;
+}
